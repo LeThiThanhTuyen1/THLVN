@@ -83,7 +83,7 @@
     <?php include 'header.php'?>
     <form action="search.php" method="GET">
         <input type="text" placeholder="Nhập tên sân bóng hoặc loại sân bóng" class="search" name="timkiem"/>
-        <nput class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
+        <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
     </form>
     <?php 
         if (isset($_GET['timkiem'])) {
@@ -114,25 +114,28 @@
                 if($products) {          
                     echo '<div class="sanbong-div">
                         <h2 class="h2">KẾT QUẢ TÌM KIẾM</h2>';
-                        while ($row = mysqli_fetch_assoc($products)) {
-                            echo '<div class="box">                    
-                                <form method="post" action="action.php">
-                                    <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
-                                    <input type="hidden" name="id" value=" '.$row['ID'].' ">
-                                    <h2>' . $row['TenSan'] . '</h2>';
-                                    if ($loggedIn) {
-                                        echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
-                                    }
-                                    echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
-                                    <c>Loại sân: ' . $row['LoaiSan'] . '</c>
-                                    <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
-                                    <input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
-                                </form>
-                            </div>';     
+                        $num = mysqli_num_rows($products);
+                        if($num > 0) {
+                            while ($row = mysqli_fetch_assoc($products)) {
+                                echo '<div class="box">                    
+                                    <form method="post" action="action.php">
+                                        <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
+                                        <input type="hidden" name="id" value=" '.$row['ID'].' ">
+                                        <h2>' . $row['TenSan'] . '</h2>';
+                                        if ($loggedIn) {
+                                            echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
+                                        }
+                                        echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
+                                        <c>Loại sân: ' . $row['LoaiSan'] . '</c>
+                                        <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
+                                        <input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
+                                    </form>
+                                </div>';     
+                            }
+                            echo '</div>'; 
                         }
-                    echo '</div>';    
+                        else echo '<div class="status-div-rong"><p>Không có sân bóng nào được tìm thấy.</p></div>';  
                 }
-                else  echo '<div class="status-div-rong"><p>Không có sân bóng nào được tìm thấy.</p><div>';
             }
         }
         include 'pagination.php';
