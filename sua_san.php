@@ -76,7 +76,7 @@
             $moTa = $_POST['moTa'];
             $image = $_FILES['image'];
 
-        if ($image) {
+            if ($image) {
 		$imageData = file_get_contents($image['tmp_name']);
                 $imageData = mysqli_real_escape_string($conn, $imageData);
 
