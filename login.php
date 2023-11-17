@@ -86,7 +86,7 @@
 			<br><input type="submit" name="submit" value="Đăng nhập">
 
 			<br><a href="register.php" class="reg">Chưa có tài khoản? Đăng ký</a>
-			<br><a href="home.php" class="reg">Thoát</a>           
+			<br><a href="sanbong.php" class="reg">Thoát</a>           
 		</form>
 	</div>
 	</div>
