@@ -51,9 +51,9 @@
     include 'header_admin.php';
     ?>
     <form action="search-guest.php" method="GET">
-            <input type="text" placeholder="Nhập tên khách hàng" class="search" name="timkiem"/>
-            <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
-        </form>
+        <input type="text" placeholder="Nhập tên khách hàng" class="search" name="timkiem"/>
+        <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
+    </form>
     <div class="status-div">
         <b>DANH SÁCH KHÁCH HÀNG</b><br />
         <br>
@@ -95,6 +95,6 @@
         </table>
         <br>
         <button class="btn">Thêm mới</button>
-        </div>
+    </div>
 </body>
 </html>
