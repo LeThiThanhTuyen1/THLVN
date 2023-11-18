@@ -63,38 +63,38 @@
     include 'header_admin.php';
     ?>
     <form action="search-guest.php" method="GET">
-            <input type="text" placeholder="Nhập tên khách hàng" class="search" name="timkiem"/>
-            <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
-        </form>
-        <?php 
-            if (isset($_GET['timkiem'])) {
-                    $timkiem = $_GET['timkiem'];
-                    if(empty($timkiem)) {
-                        echo '<script>
-                            alert("Vui lòng nhập thông tin tìm kiếm!");
-                            window.history.back();
-                        </script>';
-                    }
-                    else {
-                        $sql = "SELECT * FROM khachhang WHERE TenKH LIKE '%$timkiem%'";
-                        $result = mysqli_query($conn, $sql);
-                        $num = mysqli_num_rows($result);
-                        if($num>0 && $timkiem!="") {
-                            echo '<div class="status-div">
-                            <b>KẾT QUẢ TÌM KIẾM <span id="tieudetime"></span></b><br />
-                            <br>
-                            <table class="table-status" border="1">
-                                <thead>
-                                    <tr>
-                                        <th>Mã khách hàng</th>
-                                        <th>Tên khách hàng</th>
-                                        <th>Email</th>
-                                        <th>Số điện thoại</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>';
+        <input type="text" placeholder="Nhập tên khách hàng" class="search" name="timkiem"/>
+        <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
+    </form>
+    <?php 
+        if (isset($_GET['timkiem'])) {
+            $timkiem = $_GET['timkiem'];
+            if(empty($timkiem)) {
+                echo '<script>
+                    alert("Vui lòng nhập thông tin tìm kiếm!");
+                    window.history.back(); 
+                </script>';
+            }
+            else {
+                $sql = "SELECT * FROM khachhang WHERE TenKH LIKE '%$timkiem%'";
+                $result = mysqli_query($conn, $sql);
+                $num = mysqli_num_rows($result);
+                if($num>0 && $timkiem!="") {
+                    echo '<div class="status-div">
+                        <b>KẾT QUẢ TÌM KIẾM <span id="tieudetime"></span></b><br />
+                        <br>
+                        <table class="table-status" border="1">
+                            <thead>
+                                <tr>
+                                    <th>Mã khách hàng</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>';
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo '<tr>';
                                     echo '<td>' . $row['MaKH'] . '</td>';
@@ -106,23 +106,17 @@
                                     echo '</tr>';
                                 }    
                                 mysqli_close($conn);
-                                echo '</tbody>
-                                </table>
-                                <br>
-                                <input class="btn" type ="submit" name="add" value="Thêm mới">
-                                </div>';
-                        }
-                        else {
-                            echo '<div class="status-div-rong">Không có kết quả nào được tìm thấy.</div>';
-                        }
-                    }
+                            echo '</tbody>
+                        </table>
+                        <br>
+                        <input class="btn" type ="submit" name="add" value="Thêm mới">
+                    </div>';
                 }
-                
-                // Duyệt qua kết quả
-                
-
-                // Đóng kết nối
-                
-                ?>
+                else {
+                    echo '<div class="status-div-rong">Không có kết quả nào được tìm thấy.</div>';
+                }
+            }
+        }
+    ?>
 </body>
 </html>

@@ -27,7 +27,6 @@
 <body>
     <?php include('header.php') ?>
     <div class="contact-div">
-        
         <div class="text">
             <h1>Liên hệ với chúng tôi</h1>
             <br>Địa chỉ: Số nhà 541 An Dương Vương, Phường Nguyễn Văn Cừ, Thành phố Quy Nhơn, tinht Bình Địng, Việt Nam<br>
