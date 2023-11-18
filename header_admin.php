@@ -144,6 +144,7 @@
 					</div>
 				<?php } ?>
 			</div>	
+					<li><a class="hover" href="datsan_admin.php"> Danh sách đặt</a></li>
 					<li><a class="hover" href="status_admin.php">Trạng thái</a></li>
 					<li><a class="hover" href="khachhang_admin.php">Khách hàng</a></li>
 					<li><a class="hover" href="sanbong_admin.php">Sân bóng</a></li>	

@@ -78,7 +78,8 @@
     include 'header_admin.php';
     ?>
     <form action="search-pitch.php" method="GET">
-        <input type="text" placeholder="Nhập tên hoặc loại sân bóng muốn tìm" class="search" name="timkiem"/>
+        <input type="text" placeholder="Nhập tên hoặc loại sân bóng muốn tìm" 
+                class="search" name="timkiem"/>
         <input class="search-bt" type="submit" name="search-sb" value="Tìm"/><br>
     </form>
     <?php

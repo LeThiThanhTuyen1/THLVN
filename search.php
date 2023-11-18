@@ -7,10 +7,13 @@
         body {
             background-color: #125c0b;
         }
+        .h2 {
+            color: yellow;
+            text-align: center;
+        }
         .box {
             margin-left: 100px;
             text-align: center;
-            margin-top: 15px;
             padding: 10px;
             border: 5px inset coral;
             width: 35%;
@@ -42,7 +45,6 @@
             margin-bottom:10px;
             color: #ec0909;
         }
-        
         .box c {
             display: block;
             vertical-align: middle;
@@ -78,70 +80,65 @@
     </style>
 </head>
 <body>
-    <?php
-    include 'header.php';
-    ?>
+    <?php include 'header.php'?>
     <form action="search.php" method="GET">
-            <input type="text" placeholder="Nhập tên sân bóng hoặc loại sân bóng" class="search" name="timkiem"/>
-            <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
-        </form>
-        <?php 
-            if (isset($_GET['timkiem'])) {
-                    $timkiem = $_GET['timkiem'];
-                    if(empty($timkiem)) {
-                        echo '<script>
-                            alert("Vui lòng nhập thông tin tìm kiếm!");
-                            window.history.back();
-                        </script>';
-                    }
-                    else {
-                        include 'config.php';
-                        if (isset($_SESSION['user'])) {
-                            $username = $_SESSION['login_user'];
-                            $loggedIn = true;
-                        } else {
-                            $username = 'guest';
-                            $loggedIn = false;
-                        }
-                        
-                        $item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:4;
-                        $current_page = !empty($_GET['page'])?$_GET['page']:1; //Trang hiện tại
-                        $offset = ($current_page - 1) * $item_per_page;
-                        $products = mysqli_query($conn, "SELECT * FROM `sanbong`WHERE TenSan like '%$timkiem%' OR LoaiSan LIKE '$$timkiem%' ORDER BY `ID` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
-                        $totalRecords = mysqli_query($conn, "SELECT * FROM `sanbong`");
-                        $totalRecords = $totalRecords->num_rows;
-                        $totalPages = ceil($totalRecords / $item_per_page);
-                    if($products) {
-                       
-                            echo '<div class="sanbong-div">';
-                            while ($row = mysqli_fetch_assoc($products)) {
-                            echo '<div class="box">
-                                <form method="post" action="action.php">
-                                    <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
-                                    <input type="hidden" name="id" value=" '.$row['ID'].' ">
-                                    <h2>' . $row['TenSan'] . '</h2>';
-                                    if ($loggedIn) {
-                                        echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
-                                    }
-                                    echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
-                                    <c>Loại sân: ' . $row['LoaiSan'] . '</c>
-                                    <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
-                                    <input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
-                                </form>
-                            </div>';     
-                            }
-                            echo '</div>';
-                        
-                    }
-                        else  echo '<div class="status-div-rong"><p>Không có sân bóng nào được tìm thấy.</p><div>';
-                    }
+        <input type="text" placeholder="Nhập tên sân bóng hoặc loại sân bóng" class="search" name="timkiem"/>
+        <input class="search-bt" type="submit" name="search-kh" value="Tìm"/><br>
+    </form>
+    <?php 
+        if (isset($_GET['timkiem'])) {
+            $timkiem = $_GET['timkiem'];
+            if(empty($timkiem)) {
+                echo '<script>
+                    alert("Vui lòng nhập thông tin tìm kiếm!");
+                    window.history.back();
+                </script>';
+            }
+            else {
+                include 'config.php';
+                if (isset($_SESSION['user'])) {
+                    $username = $_SESSION['login_user'];
+                    $loggedIn = true;
+                } else {
+                    $username = 'guest';
+                    $loggedIn = false;
                 }
-                
-                // Duyệt qua kết quả
-                
-
-                // Đóng kết nối
-                
-                ?>
+                        
+                $item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:4;
+                $current_page = !empty($_GET['page'])?$_GET['page']:1; //Trang hiện tại
+                $offset = ($current_page - 1) * $item_per_page;
+                $products = mysqli_query($conn, "SELECT * FROM `sanbong`WHERE TenSan LIKE '%$timkiem%' OR LoaiSan LIKE '%$timkiem%' ORDER BY `ID` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
+                $totalRecords = mysqli_query($conn, "SELECT * FROM `sanbong`");
+                $totalRecords = $totalRecords->num_rows;
+                $totalPages = ceil($totalRecords / $item_per_page);
+                if($products) {          
+                    echo '<div class="sanbong-div">
+                        <h2 class="h2">KẾT QUẢ TÌM KIẾM</h2>';
+                        $num = mysqli_num_rows($products);
+                        if($num > 0) {
+                            while ($row = mysqli_fetch_assoc($products)) {
+                                echo '<div class="box">                    
+                                    <form method="post" action="action.php">
+                                        <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
+                                        <input type="hidden" name="id" value=" '.$row['ID'].' ">
+                                        <h2>' . $row['TenSan'] . '</h2>';
+                                        if ($loggedIn) {
+                                            echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
+                                        }
+                                        echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
+                                        <c>Loại sân: ' . $row['LoaiSan'] . '</c>
+                                        <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
+                                        <input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
+                                    </form>
+                                </div>';     
+                            }
+                            echo '</div>'; 
+                        }
+                        else echo '<div class="status-div-rong"><p>Không có sân bóng nào được tìm thấy.</p></div>';  
+                }
+            }
+        }
+        include 'pagination.php';
+    ?>
 </body>
 </html>
