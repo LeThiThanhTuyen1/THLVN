@@ -17,6 +17,7 @@
         }
         .table-status {
             text-align: center;
+            margin: auto;
         }
         th, td {
             padding: 10px;
