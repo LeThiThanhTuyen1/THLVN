@@ -6,7 +6,7 @@
         // Include thư viện PHPExcel_IOFactory vào
         include 'PHPExcel/Classes/PHPExcel/IOFactory.php';
 
-        // Loại file cần ghi là file excel phiên bản 2007 trở đi
+        // Loại file cần ghi là file excel phiên bản 2007 trở đi 
         $fileType = 'Excel2007';
         // Tên file cần ghi
         $fileName = 'danhsachdatsan.xlsx';
