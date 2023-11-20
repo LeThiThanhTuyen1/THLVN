@@ -44,6 +44,14 @@
             margin-top: 80px;
         }
     </style>
+       <script>
+        function confirmDelete(id) {
+            var result = confirm("Bạn có chắc muốn xóa khách hàng này?");
+            if (result) {
+                window.location.href = 'edit_khachhang.php?id=' + id;
+            }
+        }
+    </script> 
 </head>
 <body>
     <?php
@@ -60,7 +68,7 @@
         <table class="table-status" border="1">
             <thead>
                 <tr>
-                    <th>Mã khách hàng</th>
+                    <th>MaKH</th>
                     <th>Tên khách hàng</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
@@ -76,16 +84,16 @@
 
                 // Duyệt qua kết quả
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo '<form action="" method="POST"';
+                    echo '<form action="edit_khachhang.php" method= "POST" id="add-form">';
                         echo '<tr>';
                         echo '<td>' . $row['MaKH'] . '</td>';
                         echo '<td>' . $row['TenKH'] . '</td>';
                         echo '<td>' . $row['Email'] . '</td>';
                         echo '<td>' . $row['SoDT'] . '</td>';
-                        echo '<td><input class="btn" type ="submit" name="suasb['.$row['MaKH'].']" value="Sửa"></td>';
-                        echo '<td><input class="btn" type ="submit" name="xoasb['.$row['MaKH'].']" value="Xóa"></td>';
-                        echo '</tr>';
-                    echo '</form>';
+                        echo '<td><input class="btn" type ="submit" name="suakh['.$row['MaKH'].']" value="Sửa"></td>';
+                    //echo '<td><input class="btn" type ="submit" name="xoasb['.$row['ID'].']" value="Xóa"></td>';
+                    echo '<td><input class="btn" type="button" value="Xóa" onclick="confirmDelete('.$row['MaKH'].')"></td>';
+                    echo '</tr>';
                 }
 
                 // Đóng kết nối
@@ -94,7 +102,8 @@
             </tbody>
         </table>
         <br>
-        <button class="btn">Thêm mới</button>
+        <input class="btn" type="submit" name="themmoi" value= "Thêm mới">
+            </form>
     </div>
 </body>
 </html>
