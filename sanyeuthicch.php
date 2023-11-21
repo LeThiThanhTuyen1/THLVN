@@ -96,7 +96,7 @@ $products = mysqli_query($conn, $sql);
         echo '<div class="sanbong-div">';
         while ($row = mysqli_fetch_assoc($products)) {
         echo '<div class="box">
-            <form method="POST" action="datsan.php">
+        <form method="POST" action="sanyeuthicch.php">
                 <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
                 
                 <h2>' . $row['TenSan'] . '</h2>';
@@ -105,9 +105,10 @@ $products = mysqli_query($conn, $sql);
                 
                 echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
                 <c>Loại sân: ' . $row['LoaiSan'] . '</c>
+            </form>
+            <form method="POST" action="datsan.php">
                 <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
                 </form>
-            </form>
         </div>';     
         }
         echo '</div>';
@@ -134,3 +135,4 @@ $products = mysqli_query($conn, $sql);
     
 </footer>
 </html>
+
