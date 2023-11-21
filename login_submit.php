@@ -18,6 +18,7 @@
 			$check_pass = mysqli_num_rows($result2);
 			if($check_pass) {
 				//lưu vào session
+				$_SESSION['id'] = $data['ID'];
 				$_SESSION['user'] = $data;
 				$_SESSION['login_user'] = $username;
 				$_SESSION['login_pass'] = $data['MatKhau'];
