@@ -34,7 +34,9 @@
             display: inline-block;
             vertical-align: middle;
             margin-left: 10px;
+            background-color: white;
         }
+        
         .btn {
             display: inline-block;
             vertical-align: middle;
@@ -64,6 +66,14 @@
             margin-top: 80px;
         }
     </style>
+    <script>
+        function confirmAddlike(id) {
+            var result = confirm("Bạn có chắc muốn thêm sân bóng này vào danh sách yêu thích?");
+            if (result) {
+                window.location.href = 'add_yeuthich.php?id=' + id;
+            }
+        }
+    </script>
 </head>
 <body>
     <?php
@@ -102,7 +112,8 @@
                 <input type="hidden" name="id" value=" '.$row['ID'].' ">
                 <h2>' . $row['TenSan'] . '</h2>';
                 if ($loggedIn) {
-                    echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
+                    echo '<input class="favorite-button" type="button" value="❤️" onclick="confirmAddlike('.$row['ID'].')">';
+
                 }
                 echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
                 <c>Loại sân: ' . $row['LoaiSan'] . '</c>
@@ -114,21 +125,6 @@
         echo '</div>';
     }
     ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".favorite-button").click(function() {
-                var sid = $(this).data("sid");
-                var icon = $(this);
-
-                $.post("add_yeuthich.php", { sid: sid }, function(data) {
-                    if (data === "success") {
-                        icon.addClass("favorite");
-                    }
-                });
-            });
-        });
-    </script>
     
 </body>
 <footer>

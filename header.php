@@ -14,7 +14,8 @@
 			margin-left: 0;
 			position: relative;
 		}
-		.container * {
+		.container * { 
+			
 			padding: 0;
 			margin: 0;
 		}
