@@ -63,6 +63,17 @@
             margin-left: 12.5%;
             margin-top: 80px;
         }
+        .status-div-rong {
+            margin: 12.5%;
+            border: 5px inset coral;
+            width: 70%;
+            background-color: #ffffff;
+            box-shadow: 0 5px 15px #111111;
+            display: inline-block;
+            margin-bottom: 25px;
+            margin-top: 15px;
+            padding: 10px 40px;
+        }
     </style>
 </head>
 <body>
@@ -91,7 +102,7 @@ if(isset($_POST['huyyeuthich']))
 
 $products = mysqli_query($conn, $sql);
     if (mysqli_num_rows($products) == 0) {
-        echo '<p>Không có sân bóng nào được tìm thấy.</p>';
+        echo '<div class="status-div-rong"><p>Không có sân bóng nào được tìm thấy.</p></div>';
     } else {
         echo '<div class="sanbong-div">';
         while ($row = mysqli_fetch_assoc($products)) {
@@ -129,10 +140,6 @@ $products = mysqli_query($conn, $sql);
             });
         });
     </script>
-    
 </body>
-<footer>
-    
-</footer>
 </html>
 
