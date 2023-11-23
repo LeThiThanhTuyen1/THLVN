@@ -42,13 +42,19 @@
 
         .add form input[type="text"] {
             margin-bottom: -20px;
+            padding: 5px;
+            font-size: 17px;
         }
 
         textarea {
             height: 50px;
             margin-bottom: -20px;
         }
-
+        .add form input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-left: 10px;
+        }
         .add form input[type="radio"] {
             margin-bottom: 10px;
         }
@@ -108,7 +114,7 @@
             <label for="tenSan">Tên sân bóng:</label>
             <input type="text" name="tenSan" id="tenSan" value="<?= $row['TenSan'] ?>" required><br>
             <label for="trangThai"></label>
-            <input type="checkbox" name="trangThai" id="trangThai" value="1"  <?php echo ($row['TrangThai'] == 1) ? 'checked' : ''; ?>>
+            <span>Đang hoạt động<input type="checkbox" name="trangThai" id="trangThai" value="1"  <?php echo ($row['TrangThai'] == 1) ? 'checked' : ''; ?>></span>
             <br><input type="submit" name="luu" value="Lưu">&emsp;
         </form>
     </div>
