@@ -65,14 +65,6 @@
         $username = 'guest';
         $loggedIn = false;
     }
-    
-    $item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:4;
-    $current_page = !empty($_GET['page'])?$_GET['page']:1; //Trang hiện tại
-    $offset = ($current_page - 1) * $item_per_page;
-    $products = mysqli_query($conn, "SELECT * FROM `sanbong` ORDER BY `ID` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
-    $totalRecords = mysqli_query($conn, "SELECT * FROM `sanbong`");
-    $totalRecords = $totalRecords->num_rows;
-    $totalPages = ceil($totalRecords / $item_per_page);
 
     if(isset($_POST['chitiet'])&&$_POST['chitiet']) {
         $sanBongId = $_POST['id'];
@@ -80,7 +72,7 @@
         $result = mysqli_query($conn, $sql);
         if($row = mysqli_fetch_array($result)) {
             echo '<div class="detail-div">
-                    <form method="post" action="action.php">
+                    <form method="post" action="">
                         <img width="600" height="350" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
                         <h2>' . $row['TenSan'] . '</h2>
                         Giá: ' . $row['Gia'] . '
@@ -90,45 +82,49 @@
                         <button  class="back-button"><a class="back-a" href="sanbong.php">Trở về</a></button>';
                         if ($loggedIn) {
                             echo '<input class="favorite-button" type="button" value="❤️" onclick="confirmAddlike('.$row['ID'].')">';
-        
                         }
-                        echo                         
-                            '<input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
-                    </form>
+                echo '</form>
                 </div>';
         }
     }   
-    else if(isset($_POST['datsan'])&&$_POST['datsan']) {
-        $idSan = $_POST['id'];
-        if (isset($_SESSION['login_user'])) {
-            $username = $_SESSION['login_user'];
+    if(isset($_POST['datsan'])&&$_POST['datsan']) {
+        if($loggedIn){
+            $idSan = $_POST['id'];
+            if (isset($_SESSION['login_user'])) {
+                $username = $_SESSION['login_user'];
 
-            $sql = "SELECT * FROM sanbong WHERE ID = '$idSan'";
-            $result = mysqli_query($conn, $sql);
-            if($row = mysqli_fetch_array($result)) {
-                echo '<div class="detail-div">
-                    <form method="post" action="datsan.php">
-                        <img width="600" height="350" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
-                        <input type="hidden" name="id" value=" '.$row['ID'].' ">
-                        <input type="hidden" name="price" value=" '.$row['Gia'].' ">
-                        <h2>' . $row['TenSan'] . '</h2>
-                        Giá: ' . $row['Gia'] . '
-                        <br>Loại sân: ' . $row['LoaiSan'] . '</c>
-                        <br>Mô tả: ' . $row['MoTa'] . '</c>
-                        <br><br><input type="text" id="datetimePicker" name="Timedatsan" placeholder="Chọn thời gian đặt sân">
-                        <br><br><input type="text" id="datetimePicker" name="Timetrasan" placeholder="Chọn thời gian trả sân">
-                        <br><br><input type="submit" name="DatSan['.$row['ID'].']" class="btn" value="Đặt sân">
-                        <button  class="back-button"><a class="back-a" href="sanbong.php">Trở về</a></button>
-                        </form>
-                </div>';
-                echo '<script>
-                    flatpickr("#datetimePicker", {
-                        enableTime: true,
-                        minDate: "today",
-                        dateFormat: "Y-m-d H:i",
-                    });
-                </script>';
+                $sql = "SELECT * FROM sanbong WHERE ID = '$idSan'";
+                $result = mysqli_query($conn, $sql);
+                if($row = mysqli_fetch_array($result)) {
+                    echo '<div class="detail-div">
+                        <form method="post" action="datsan.php">
+                            <img width="600" height="350" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
+                            <input type="hidden" name="id" value=" '.$row['ID'].' ">
+                            <input type="hidden" name="price" value=" '.$row['Gia'].' ">
+                            <h2>' . $row['TenSan'] . '</h2>
+                            Giá: ' . $row['Gia'] . '
+                            <br>Loại sân: ' . $row['LoaiSan'] . '</c>
+                            <br>Mô tả: ' . $row['MoTa'] . '</c>
+                            <br><br><input type="text" id="datetimePicker" name="Timedatsan" placeholder="Chọn thời gian đặt sân">
+                            <br><br><input type="text" id="datetimePicker" name="Timetrasan" placeholder="Chọn thời gian trả sân">
+                            <br><br><input type="submit" name="DatSan['.$row['ID'].']" class="btn" value="Đặt sân">
+                            <button  class="back-button"><a class="back-a" href="sanbong.php">Trở về</a></button>
+                            </form>
+                    </div>';
+                    echo '<script>
+                        flatpickr("#datetimePicker", {
+                            enableTime: true,
+                            minDate: "today",
+                            dateFormat: "Y-m-d H:i",
+                        });
+                    </script>';
+                }
             }
+        }else{
+            echo "<script>
+                alert('Vui lòng đăng nhập tài khoản!');
+                window.location.href='login.php';
+            </script>";
         }
     }else {
         echo "error";

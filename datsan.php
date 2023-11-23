@@ -3,11 +3,18 @@
     function calculateTotal($start, $end, $pricePerHour) {
         $startTime = strtotime( $start);
         $endTime = strtotime($end);
+        $current = time();
+        if(($startTime < $endTime) || ($startTime <= $current)){
+            $hoursBooked = ($endTime - $startTime) / 3600;
 
-        $hoursBooked = ($endTime - $startTime) / 3600;
-
-        $total = $hoursBooked * $pricePerHour;
-        return $total;
+            $total = $hoursBooked * $pricePerHour;
+            return $total;
+        }else{
+            echo" <script>
+                alert('Thời gian đặt sân không hợp lệ!');
+                window.location.href='sanbong.php';
+            </script>";
+        }
     }
 
     if (isset($_SESSION['login_user'])) {
@@ -18,6 +25,7 @@
             $price = $_POST['price'];
             $Timedatsan = $_POST['Timedatsan'];
             $Timetrasan = $_POST['Timetrasan'];
+
             $checkQuery = "SELECT * FROM datsan 
                         WHERE IDSan = '$idSan' 
                         AND GioDat <= '$Timedatsan' 
