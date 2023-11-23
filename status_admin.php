@@ -32,11 +32,15 @@
         button {
             padding: 5px;
         }
+        .btn {
+            color: red;
+        }
         a {
             text-decoration: none;
             color: red;
         }
     </style>
+    
 </header>
 <body>
     <div class="status-div">
@@ -53,22 +57,23 @@
             </thead>
             <tbody>
                 <?php
-                $stt =1;
+                
 
-                $sql_tt = "SELECT TenSan,
+                $sql_tt = "SELECT ID,TenSan,
                         IF(TrangThai = 1, 'Đang hoạt động', 'Đang bảo trì') AS TrangThai
                         FROM sanbong";
                 $result_tt = mysqli_query($conn, $sql_tt);
 
                 // Duyệt qua kết quả
                 while ($row = mysqli_fetch_assoc($result_tt)) {
+                    echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
                     echo '<tr>';
-                    echo '<td>' . $stt . '</td>';
+                    echo '<td>' . $row['ID'] . '</td>';
                     echo '<td>' . $row['TenSan'] . '</td>';
                     echo '<td>' . $row['TrangThai'] . '</td>';
-                    echo '<td><input style="color: red" type="submit" name="edit-status['.$row['TenSan'].']" value="Sửa"/></td>';
+                    echo '<td><input class="btn" type ="submit" name="suatt['.$row['ID'].']" value="Sửa"></td>';
                     echo '</tr>';
-                    $stt++;
+                    
                 }
 
                 // Đóng kết nối
