@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 21, 2023 lúc 06:14 PM
--- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.2.4
+-- Thời gian đã tạo: Th10 23, 2023 lúc 07:51 SA
+-- Phiên bản máy phục vụ: 5.7.14
+-- Phiên bản PHP: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -33,7 +32,7 @@ CREATE TABLE `danhsachdat` (
   `GioDat` datetime NOT NULL,
   `GioTra` datetime NOT NULL,
   `ThanhTien` int(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `danhsachdat`
@@ -51,25 +50,21 @@ INSERT INTO `danhsachdat` (`MaDat`, `TenSan`, `GioDat`, `GioTra`, `ThanhTien`) V
 
 CREATE TABLE `datsan` (
   `MaDat` int(5) NOT NULL,
-  `TenSan` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
-  `MaKhach` int(5) NOT NULL,
+  `IDSan` int(11) NOT NULL,
+  `TenTK` varchar(25) NOT NULL,
   `GioDat` datetime(2) NOT NULL,
   `GioTra` datetime(2) NOT NULL,
-  `DaThanhToan` bit(1) NOT NULL,
-  `ThanhTien` int(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ThanhTien` int(50) NOT NULL,
+  `ThanhToan` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `datsan`
 --
 
-INSERT INTO `datsan` (`MaDat`, `TenSan`, `MaKhach`, `GioDat`, `GioTra`, `DaThanhToan`, `ThanhTien`) VALUES
-(1, 'Sân A', 3, '2023-11-01 11:41:39.00', '2023-11-01 18:41:39.00', b'0', 400000),
-(2, 'Sân B', 1, '2023-11-01 05:00:00.88', '2023-11-01 11:00:00.76', b'0', 700000),
-(3, 'Sân B', 2, '2023-11-01 10:29:24.00', '2023-11-01 20:29:24.00', b'0', 1231200),
-(4, 'Sân C', 1, '2023-11-01 06:30:21.00', '2023-11-01 08:30:21.00', b'0', 100000),
-(5, 'Sân D', 3, '2023-11-01 05:30:21.00', '2023-11-01 11:30:21.00', b'0', 900000),
-(6, 'Sân A', 3, '2023-11-02 05:33:16.00', '2023-11-02 10:33:16.00', b'0', 900000);
+INSERT INTO `datsan` (`MaDat`, `IDSan`, `TenTK`, `GioDat`, `GioTra`, `ThanhTien`, `ThanhToan`) VALUES
+(10, 2, 'user', '2023-11-23 14:00:00.00', '2023-11-23 16:00:00.00', 300000, b'0'),
+(11, 4, 'user', '2023-11-23 17:00:00.00', '2023-11-23 17:30:00.00', 150000, b'0');
 
 -- --------------------------------------------------------
 
@@ -82,7 +77,7 @@ CREATE TABLE `khachhang` (
   `TenKH` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
   `Email` varchar(50) NOT NULL,
   `SoDT` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `khachhang`
@@ -109,7 +104,7 @@ CREATE TABLE `sanbong` (
   `DiaDiem` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
   `MoTa` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
   `TrangThai` bit(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `sanbong`
@@ -135,7 +130,7 @@ INSERT INTO `sanbong` (`ID`, `TenSan`, `AnhSan`, `LoaiSan`, `Gia`, `DiaDiem`, `M
 CREATE TABLE `sanyeuthich` (
   `ID` int(10) NOT NULL,
   `IDSan` int(15) NOT NULL,
-  `TenTK` varchar(50) NOT NULL
+  `TenTK` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -145,8 +140,6 @@ CREATE TABLE `sanyeuthich` (
 INSERT INTO `sanyeuthich` (`ID`, `IDSan`, `TenTK`) VALUES
 (25, 1, 'user'),
 (24, 1, 'user'),
-(23, 3, 'user'),
-(22, 4, 'user'),
 (26, 2, 'user1');
 
 -- --------------------------------------------------------
@@ -161,7 +154,7 @@ CREATE TABLE `taikhoan` (
   `MatKhau` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Quyen` bit(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Đang đổ dữ liệu cho bảng `taikhoan`
@@ -221,26 +214,21 @@ ALTER TABLE `taikhoan`
 --
 ALTER TABLE `danhsachdat`
   MODIFY `MaDat` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT cho bảng `datsan`
 --
 ALTER TABLE `datsan`
-  MODIFY `MaDat` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+  MODIFY `MaDat` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT cho bảng `sanyeuthich`
 --
 ALTER TABLE `sanyeuthich`
   MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
 --
 -- AUTO_INCREMENT cho bảng `taikhoan`
 --
 ALTER TABLE `taikhoan`
   MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

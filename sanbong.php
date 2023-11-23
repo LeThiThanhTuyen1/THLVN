@@ -73,6 +73,10 @@
                 window.location.href = 'add_yeuthich.php?id=' + id;
             }
         }
+        function confirmDatSan(id) {
+                window.location.href = 'form_datsan.php?id=' + id;
+        }
+        
     </script>
 </head>
 <body>
@@ -110,6 +114,7 @@
             <form method="post" action="action.php">
                 <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
                 <input type="hidden" name="id" value=" '.$row['ID'].' ">
+                <input type="hidden" name="price" value=" '.$row['Gia'].' ">
                 <h2>' . $row['TenSan'] . '</h2>';
                 if ($loggedIn) {
                     echo '<input class="favorite-button" type="button" value="❤️" onclick="confirmAddlike('.$row['ID'].')">';
@@ -117,8 +122,9 @@
                 }
                 echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
                 <c>Loại sân: ' . $row['LoaiSan'] . '</c>
-                <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
-                <input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
+                <br>';
+               echo '<input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">';
+                echo '<input type="submit" name="chitiet['.$row['ID'].']" class="btn" value="Chi tiết">
             </form>
         </div>';     
         }
