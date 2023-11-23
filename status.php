@@ -64,10 +64,6 @@
                     echo '<td>' . $row['ID'] . '</td>';
                     echo '<td>' . $row['TenSan'] . '</td>';
                     echo '<td>' . $row['TrangThai'] . '</td>';
-                    // if($row['TrangThai'] == 0)
-                    //     echo '<td>Đang bảo trì</td>';
-                    // else 
-                    //     echo '<td>Đang hoạt động</td>';
                     echo '</tr>';
                 }
 
