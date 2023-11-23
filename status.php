@@ -52,21 +52,20 @@
             </thead>
             <tbody>
                 <?php
-                $stt =1;
 
-                $sql_tt = "SELECT TenSan,
-                        IF(TrangThai = 1, 'Đang hoạt động', 'Đang bảo trì') AS TrangThai
-                        FROM sanbong";
+                $sql_tt = "SELECT TenSan, ID, TrangThai FROM sanbong";
                 $result_tt = mysqli_query($conn, $sql_tt);
 
                 // Duyệt qua kết quả
                 while ($row = mysqli_fetch_assoc($result_tt)) {
                     echo '<tr>';
-                    echo '<td>' . $stt . '</td>';
+                    echo '<td>' . $row['ID'] . '</td>';
                     echo '<td>' . $row['TenSan'] . '</td>';
-                    echo '<td>' . $row['TrangThai'] . '</td>';
+                    if($row['TrangThai'] == 0)
+                        echo '<td>Đang bảo trì</td>';
+                    else 
+                        echo '<td>Đang hoạt động</td>';
                     echo '</tr>';
-                    $stt++;
                 }
 
                 // Đóng kết nối
