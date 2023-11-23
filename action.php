@@ -32,34 +32,42 @@
             color: red;
         }
     </style>
+    <script>
+        function confirmAddlike(id) {
+            var result = confirm("Bạn có chắc muốn thêm sân bóng này vào danh sách yêu thích?");
+            if (result) {
+                window.location.href = 'add_yeuthich.php?id=' + id;
+            }
+        }
+    </script>
 </header>
 <body>
-<?php
-    include('config.php');
-    include('header.php');
-    
-    if (isset($_SESSION['user'])) {
-        $username = $_SESSION['login_user'];
-        $loggedIn = true;
-    } else {
-        $username = 'guest';
-        $loggedIn = false;
-    }
-    
-    $item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:4;
-    $current_page = !empty($_GET['page'])?$_GET['page']:1; //Trang hiện tại
-    $offset = ($current_page - 1) * $item_per_page;
-    $products = mysqli_query($conn, "SELECT * FROM `sanbong` ORDER BY `ID` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
-    $totalRecords = mysqli_query($conn, "SELECT * FROM `sanbong`");
-    $totalRecords = $totalRecords->num_rows;
-    $totalPages = ceil($totalRecords / $item_per_page);
+    <?php
+        include('config.php');
+        include('header.php');
+        
+        if (isset($_SESSION['user'])) {
+            $username = $_SESSION['login_user'];
+            $loggedIn = true;
+        } else {
+            $username = 'guest';
+            $loggedIn = false;
+        }
+        
+        $item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:4;
+        $current_page = !empty($_GET['page'])?$_GET['page']:1; //Trang hiện tại
+        $offset = ($current_page - 1) * $item_per_page;
+        $products = mysqli_query($conn, "SELECT * FROM `sanbong` ORDER BY `ID` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
+        $totalRecords = mysqli_query($conn, "SELECT * FROM `sanbong`");
+        $totalRecords = $totalRecords->num_rows;
+        $totalPages = ceil($totalRecords / $item_per_page);
 
-    if(isset($_POST['chitiet'])&&$_POST['chitiet']) {
-        $sanBongId = $_POST['id'];
-        $sql = "SELECT * FROM sanbong where ID = '$sanBongId' ";
-        $result = mysqli_query($conn, $sql);
-        if($row = mysqli_fetch_array($result)) {
-            echo '<div class="detail-div">
+        if(isset($_POST['chitiet'])&&$_POST['chitiet']) {
+            $sanBongId = $_POST['id'];
+            $sql = "SELECT * FROM sanbong where ID = '$sanBongId' ";
+            $result = mysqli_query($conn, $sql);
+            if($row = mysqli_fetch_array($result)) {
+                echo '<div class="detail-div">
                     <form method="post" action="action.php">
                         <img width="600" height="350" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
                         <h2>' . $row['TenSan'] . '</h2>
@@ -69,37 +77,21 @@
                         <br><br>
                         <button  class="back-button"><a class="back-a" href="sanbong.php">Trở về</a></button>';
                         if ($loggedIn) {
-                            echo '<button name="add-favorite" class="favorite-button" data-sid="'.$row['ID'].'">❤️</button>';
+                            echo '<input class="favorite-button" type="button" value="❤️" onclick="confirmAddlike('.$row['ID'].')">';
                         }
-                        echo                         
-                            '<input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
+                        echo '<input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
                     </form>
                 </div>';
+            }
+        }   
+        else if(isset($_POST['datsan'])&&$_POST['datsan']) {
+            header('location: datsan.php');
         }
-    }   
-    else if(isset($_POST['datsan'])&&$_POST['datsan']) {
-        header('location: datsan.php');
-    }
-    else if(isset($_POST['add-favorite'])) {
-        header('location: sanbong.php');
-    }
-    else {
-        echo "error";
-    }
-?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".favorite-button").click(function() {
-                var sid = $(this).data("sid");
-                var icon = $(this);
-
-                $.post("add_yeuthich.php", { sid: sid }, function(data) {
-                    if (data === "success") {
-                        icon.addClass("favorite");
-                    }
-                });
-            });
-        });
-    </script>
+        else if(isset($_POST['add-favorite'])) {
+            header('location: add_yeuthich.php');
+        }
+        else {
+            echo "error";
+        }
+    ?>
 </body>
