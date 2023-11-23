@@ -83,7 +83,7 @@
             </tbody>
         </table>
         <br>
-        <button><a href="sanbong.php">Quay lại trang sân bóng</a></button>
+        <button><a href="home.php">Quay lại trang chủ</a></button>
     </div>
 </body>
 </html>
