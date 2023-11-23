@@ -44,7 +44,7 @@
 <body>
     <?php
     include 'config.php';
-    include 'header.php';
+    include 'header_admin.php';
     ?>
     <div class="status-div">
         <h2>THỐNG KÊ DOANH THU</h2>
