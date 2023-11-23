@@ -84,7 +84,10 @@
                     echo '<td>' . $row2['TenKH'] . '</td>';
                     echo '<td>' . $row['GioDat'] . '</td>';
                     echo '<td>' . $row['GioTra'] . '</td>';
-                    echo '<td>' . $row['DaThanhToan'] . '</td>';
+                    if($row['DaThanhToan'] == 1)
+                        echo '<td>Đã Thanh toán</td>';
+                    else 
+                        echo '<td>Chưa thanh toán</td>';
                     echo '<td>' . $row['ThanhTien'] . '</td>';
                     echo '</tr>';
                 }
