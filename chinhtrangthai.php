@@ -107,11 +107,9 @@
         <form method="post" action="" enctype="multipart/form-data">
             <label for="tenSan">Tên sân bóng:</label>
             <input type="text" name="tenSan" id="tenSan" value="<?= $row['TenSan'] ?>" required><br>
-
-            <label for="trangThai">Trạng thái:</label>
-            <input type="checkbox" name="trangThai" id="trangThai" value="1" <?php echo ($row['TrangThai'] == 1) ? 'checked' : ''; ?>> Đang hoạt động
-
-            <input type="submit" name="luu" value="Lưu">
+            <label for="trangThai"></label>
+            <input type="checkbox" name="trangThai" id="trangThai" value="1"  <?php echo ($row['TrangThai'] == 1) ? 'checked' : ''; ?>>
+            <br><input type="submit" name="luu" value="Lưu">&emsp;
         </form>
     </div>
 </body>
