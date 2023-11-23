@@ -53,7 +53,9 @@
             <tbody>
                 <?php
 
-                $sql_tt = "SELECT TenSan, ID, TrangThai FROM sanbong";
+                $sql_tt = "SELECT ID,TenSan,
+                IF(TrangThai = 1, 'Đang hoạt động', 'Đang bảo trì') AS TrangThai
+                FROM sanbong";
                 $result_tt = mysqli_query($conn, $sql_tt);
 
                 // Duyệt qua kết quả
@@ -61,10 +63,11 @@
                     echo '<tr>';
                     echo '<td>' . $row['ID'] . '</td>';
                     echo '<td>' . $row['TenSan'] . '</td>';
-                    if($row['TrangThai'] == 0)
-                        echo '<td>Đang bảo trì</td>';
-                    else 
-                        echo '<td>Đang hoạt động</td>';
+                    echo '<td>' . $row['TrangThai'] . '</td>';
+                    // if($row['TrangThai'] == 0)
+                    //     echo '<td>Đang bảo trì</td>';
+                    // else 
+                    //     echo '<td>Đang hoạt động</td>';
                     echo '</tr>';
                 }
 
