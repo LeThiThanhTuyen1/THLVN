@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Đăng Nhập - TPT</title>
+	<title>Đăng Nhập</title>
 	<link rel="icon" type="image/x-icon" href="img/logo.ico">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<style>
