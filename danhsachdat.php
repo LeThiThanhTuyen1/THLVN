@@ -36,49 +36,42 @@
             text-decoration: none;
             color: red;
         }
-    </style>
-    
+    </style>  
 </header>
 <body>
-
-<?php
-if(isset($_GET['id']))
-{
-        $timestamp = time();
-        $id1 = $_GET['id'];
-    
-        // Chuyển timestamp thành ngày/tháng
-        $date = date('Y-m-d', $timestamp);
-    
-        // Cộng thêm 1 ngày
-        $nextDay = date('Y-m-d', strtotime($date . ' +1 day'));
+    <?php
+        if(isset($_GET['id'])) {
+            $timestamp = time();
+            $id1 = $_GET['id'];
         
+            // Chuyển timestamp thành ngày/tháng
+            $date = date('Y-m-d', $timestamp);
+        
+            // Cộng thêm 1 ngày
+            $nextDay = date('Y-m-d', strtotime($date . ' +1 day'));
 
-        $sql_tt = "SELECT * FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
-        $result_tt = mysqli_query($conn, $sql_tt);
-        if(mysqli_num_rows($result_tt) > 0)
-        {
-            $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
-            $result_tt1 = mysqli_query($conn, $sql_tt1);
-            echo  '<script>alert("Xóa thành công!");</script>';
+            $sql_tt = "SELECT * FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
+            $result_tt = mysqli_query($conn, $sql_tt);
+            if(mysqli_num_rows($result_tt) > 0)
+            {
+                $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
+                $result_tt1 = mysqli_query($conn, $sql_tt1);
+                echo  '<script>alert("Xóa thành công!");</script>';
 
+            }
+            else
+            {
+                echo  '<script>alert("Không thành công!");</script>';
+            }
         }
-        else
-        {
-            echo  '<script>alert("Không thành công!");</script>';
-        }
-        }
-
-
- 
-?>
+    ?>
     <div class="status-div">
         <b>DANH SÁCH ĐẶT SÂN <span id='tieudetime'></span></b><br />
         <br>
         <table class="table-status" border="1">
             <thead>
                 <tr>
-                    <th>STT</th>
+                    <th>Mã đặt</th>
                     <th>Tên Sân</th>
                     <th>Giờ đặt</th>
                     <th>Giờ trả</th>
@@ -87,39 +80,36 @@ if(isset($_GET['id']))
             </thead>
             <tbody>
                 <?php
-                if (isset($_SESSION['login_user'])) {
-                    $username = $_SESSION['login_user'];
-                    $i=0;
-
-                    $sql_tt = "SELECT sanbong.TenSan, datsan.GioDat, datsan.GioTra, datsan.MaDat, datsan.DaThanhToan
-                            FROM datsan INNER JOIN sanbong
-                            ON sanbong.ID = datsan.IDSan 
-                            WHERE datsan.TenTK = '$username'";
-                    $result_tt = mysqli_query($conn, $sql_tt);
-
-                    // Duyệt qua kết quả
-                    while ($row = mysqli_fetch_assoc($result_tt)) {
-                        $i++;
-                        echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
-                        echo '<tr>';
-                        echo '<td>' . $i . '</td>';
-                        echo '<td>' . $row['TenSan'] . '</td>';
-                        echo '<td>' . $row['GioDat'] . '</td>';
-                        echo '<td>' . $row['GioTra'] . '</td>';
-                        echo '<td> <a href= "danhsachdat.php?id=' . $row['MaDat'] . '" > Hủy</a></td>';
-                        if($row['DaThanhToan'] == 1)
-                        {
-                            echo '<td>' . 'Đã thanh toán' . '</td>';
-                        }else
-                        {
-                        echo '<td> <a href= "thanhtoansan.php?id=' . $row['MaDat'] . '" > Thanh toán</a></td>';
-                    }
-                        echo '</tr>';
+                    if (isset($_SESSION['login_user'])) {
+                        $username = $_SESSION['login_user'];
                         
+                        $sql_tt = "SELECT datsan.MaDat, sanbong.TenSan, datsan.GioDat, datsan.GioTra, datsan.MaDat, datsan.DaThanhToan
+                                FROM datsan INNER JOIN sanbong
+                                ON sanbong.ID = datsan.IDSan 
+                                WHERE datsan.TenTK = '$username'";
+                        $result_tt = mysqli_query($conn, $sql_tt);
+
+                        // Duyệt qua kết quả
+                        while ($row = mysqli_fetch_assoc($result_tt)) {
+                            echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
+                            echo '<tr>';
+                            echo '<td>' . $row['MaDat'] . '</td>';
+                            echo '<td>' . $row['TenSan'] . '</td>';
+                            echo '<td>' . $row['GioDat'] . '</td>';
+                            echo '<td>' . $row['GioTra'] . '</td>';
+                            echo '<td> <a href= "danhsachdat.php?id=' . $row['MaDat'] . '" > Hủy</a></td>';
+                            if($row['DaThanhToan'] == 1)
+                            {
+                                echo '<td>' . 'Đã thanh toán' . '</td>';
+                            } else
+                            {
+                            echo '<td> <a href= "thanhtoansan.php?id=' . $row['MaDat'] . '" > Thanh toán</a></td>';
+                            }
+                            echo '</tr>';
+                        }
                     }
-                }
-                // Đóng kết nối
-                mysqli_close($conn);
+                    // Đóng kết nối
+                    mysqli_close($conn);
                 ?>
             </tbody>
         </table>
