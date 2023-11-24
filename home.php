@@ -76,12 +76,10 @@
         th, td {
             padding: 10px;
         }
-</style>
     </style>
 </head>
 <body>
     <?php
-    session_start();
     include 'config.php';
     include 'header_admin.php'; 
 
@@ -108,37 +106,35 @@
                 }
     echo
             '</div>
-            <div class="box" style="margin-top: 50px!important">';
-            echo '<b class="tieude">KHÁCH HÀNG</b>
-            <div class="dieuhuong"><a href="khachhang_admin.php">Tùy chỉnh</a><i class="fas fa-chevron-right" style="color:red;"></i></div><br><br>';
-            echo 
-            '<table class="table-status" border="1">
-            <thead>
-                <tr>
-                    <th>Mã khách</th>
-                    <th>Tên khách</th>
-                    <th>Email</th>
-                    <th>Số điện thoại</th>
-                </tr>
-            </thead>
-            <tbody>';
-                while ($row_kh = mysqli_fetch_assoc($rs_kh)) {
-                    echo '<tr>';
-                    echo '<td>' . $row_kh['MaKH'] . '</td>';
-                    echo '<td>' . $row_kh['TenKH'] . '</td>';
-                    echo '<td>' . $row_kh['Email'] . '</td>';
-                    echo '<td>' . $row_kh['SoDT'] . '</td>';
-                    echo '</tr>';
-                }
+            <div class="box" style="margin-top: 50px!important">
+                <b class="tieude">KHÁCH HÀNG</b>
+                <div class="dieuhuong"><a href="khachhang_admin.php">Tùy chỉnh</a><i class="fas fa-chevron-right" style="color:red;"></i></div><br><br>
+                <table class="table-status" border="1">
+                    <thead>
+                        <tr>
+                            <th>Mã khách</th>
+                            <th>Tên khách</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+                        while ($row_kh = mysqli_fetch_assoc($rs_kh)) {
+                            echo '<tr>';
+                            echo '<td>' . $row_kh['MaKH'] . '</td>';
+                            echo '<td>' . $row_kh['TenKH'] . '</td>';
+                            echo '<td>' . $row_kh['Email'] . '</td>';
+                            echo '<td>' . $row_kh['SoDT'] . '</td>';
+                            echo '</tr>';
+                        }
 
-                // Đóng kết nối
-                mysqli_close($conn);
-                echo '
-            </tbody>
-        </table>';
-    echo
-            '<br></div>
-        </div>';
+                        // Đóng kết nối
+                        mysqli_close($conn);
+                        echo '
+                    </tbody>
+                </table>
+            <br></div>
+        </div><br><br><br>';
     ?> 
 </body>
 </html>
