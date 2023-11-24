@@ -50,11 +50,11 @@
             // Cộng thêm 1 ngày
             $nextDay = date('Y-m-d', strtotime($date . ' +1 day'));
 
-            $sql_tt = "SELECT * FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
+            $sql_tt = "SELECT * FROM datsan WHERE MaDat = '$id1' AND GioDat > '$nextDay'";
             $result_tt = mysqli_query($conn, $sql_tt);
             if(mysqli_num_rows($result_tt) > 0)
             {
-                $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
+                $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat > '$nextDay'";
                 $result_tt1 = mysqli_query($conn, $sql_tt1);
                 echo  '<script>alert("Xóa thành công!");</script>';
 
