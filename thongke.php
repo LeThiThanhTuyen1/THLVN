@@ -59,16 +59,27 @@
                 <?php
 
                 // Câu truy vấn SQL
-                $sql = "SELECT TenSan, SUM(ThanhTien) AS TongTien FROM datsan GROUP BY TenSan ORDER BY TongTien";
+                $sql = "SELECT sanbong.TenSan, SUM(datsan.ThanhTien) AS TongTien
+                FROM datsan
+                INNER JOIN sanbong
+                ON sanbong.ID = datsan.IDSan
+                GROUP BY datsan.IDSan
+                ORDER BY TongTien ASC";
                 $result = $conn->query($sql);
-
+                
                 // Kiểm tra và hiển thị kết quả
-                if ($result->num_rows > 0) {
+                $sum = mysqli_num_rows($result);
+                if ($sum > 0) {
                     echo "<tr></tr>";
+
                     // Xuất dữ liệu mỗi hàng
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr><td>" . $row["TenSan"] . "</td><td>" . $row["TongTien"] . "</td></tr>";
-                }
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo 
+                            "<tr>
+                                <td>" . $row["TenSan"] . "</td>
+                                <td>" . $row["TongTien"] . "</td>
+                            </tr>";
+                    }
                     echo "</table>";
 
                     $totalAll = $conn->query("SELECT SUM(ThanhTien) AS TongAll FROM datsan")->fetch_assoc();
