@@ -67,7 +67,9 @@
             <tbody>
                 <?php
 
-                $sql = "SELECT * FROM datsan";
+                $sql = "SELECT sanbong.TenSan,datsan.*
+                FROM datsan INNER JOIN sanbong
+                ON sanbong.ID = datsan.IDSan ";
                 $result = mysqli_query($conn, $sql);
 
                 // Duyệt qua kết quả
@@ -76,18 +78,23 @@
                     echo '<tr>';
                     echo '<td>' . $row['MaDat'] . '</td>';
                     echo '<td>' . $row['TenSan'] . '</td>';
-                    $maKH = $row['MaKhach'];
+                    $tenkh = $row['TenTK'];
                     // Lấy tên khách hàng theo mã khách
-                    $sql2 = "SELECT TenKH FROM khachhang WHERE MaKH = $maKH";
+                    $sql2 = "SELECT khachhang.TenKH 
+                            FROM khachhang INNER JOIN taikhoan
+                            ON khachhang.Email = taikhoan.Email
+                            WHERE TenTK = '$tenkh'";
                     $result2 = $conn->query($sql2);
                     $row2 = $result2->fetch_assoc();
                     echo '<td>' . $row2['TenKH'] . '</td>';
                     echo '<td>' . $row['GioDat'] . '</td>';
                     echo '<td>' . $row['GioTra'] . '</td>';
-                    if($row['DaThanhToan'] == 1)
-                        echo '<td>Đã Thanh toán</td>';
-                    else 
-                        echo '<td>Chưa thanh toán</td>';
+                    if($row['DaThanhToan'] == 1) {
+                        $thanhtoan = 'Đã thanh toán';
+                    } else {
+                        $thanhtoan = 'Chưa thanh toán';
+                    }
+                    echo '<td>' . $thanhtoan . '</td>';
                     echo '<td>' . $row['ThanhTien'] . '</td>';
                     echo '</tr>';
                 }

@@ -87,35 +87,37 @@ if(isset($_GET['id']))
             </thead>
             <tbody>
                 <?php
-               $id= $_SESSION['id'];
-               
-$i=0;
+                if (isset($_SESSION['login_user'])) {
+                    $username = $_SESSION['login_user'];
+                    $i=0;
 
-                $sql_tt = "SELECT *
-                        FROM datsan where MaKhach= '$id'";
-                $result_tt = mysqli_query($conn, $sql_tt);
+                    $sql_tt = "SELECT sanbong.TenSan, datsan.GioDat, datsan.GioTra, datsan.MaDat, datsan.DaThanhToan
+                            FROM datsan INNER JOIN sanbong
+                            ON sanbong.ID = datsan.IDSan 
+                            WHERE datsan.TenTK = '$username'";
+                    $result_tt = mysqli_query($conn, $sql_tt);
 
-                // Duyệt qua kết quả
-                while ($row = mysqli_fetch_assoc($result_tt)) {
-                    $i++;
-                    echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
-                    echo '<tr>';
-                    echo '<td>' . $i . '</td>';
-                    echo '<td>' . $row['TenSan'] . '</td>';
-                    echo '<td>' . $row['GioDat'] . '</td>';
-                    echo '<td>' . $row['GioTra'] . '</td>';
-                    echo '<td> <a href= "danhsachdat.php?id=' . $row['MaDat'] . '" > Hủy</a></td>';
-                    if($row['DaThanhToan'] == 1)
-                    {
-                        echo '<td>' . 'Đã thanh toán' . '</td>';
-                    }else
-                    {
-                    echo '<td> <a href= "thanhtoansan.php?id=' . $row['MaDat'] . '" > Thanh toán</a></td>';
+                    // Duyệt qua kết quả
+                    while ($row = mysqli_fetch_assoc($result_tt)) {
+                        $i++;
+                        echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
+                        echo '<tr>';
+                        echo '<td>' . $i . '</td>';
+                        echo '<td>' . $row['TenSan'] . '</td>';
+                        echo '<td>' . $row['GioDat'] . '</td>';
+                        echo '<td>' . $row['GioTra'] . '</td>';
+                        echo '<td> <a href= "danhsachdat.php?id=' . $row['MaDat'] . '" > Hủy</a></td>';
+                        if($row['DaThanhToan'] == 1)
+                        {
+                            echo '<td>' . 'Đã thanh toán' . '</td>';
+                        }else
+                        {
+                        echo '<td> <a href= "thanhtoansan.php?id=' . $row['MaDat'] . '" > Thanh toán</a></td>';
+                    }
+                        echo '</tr>';
+                        
+                    }
                 }
-                    echo '</tr>';
-                    
-                }
-
                 // Đóng kết nối
                 mysqli_close($conn);
                 ?>

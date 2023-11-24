@@ -2,9 +2,10 @@
 	//kết nối với csdl
 	include 'config.php';
 	if(isset($_POST['submit'])) {
-		
+		$fullname = $_POST['fullname'];
 		$username = $_POST['username'];
 		$email = $_POST['email'];
+		$sdt = $_POST['sdt'];
 		$password = $_POST['password'];
 		$rpassword = $_POST['rpassword'];
 		
@@ -19,9 +20,10 @@
 		}
 		else 
 			if($password === $rpassword) {
-			    $sql = "INSERT INTO taikhoan(TenTK, MatKhau, Email) VALUES ('$username', '$password', '$email') ";
+			    $sql = "INSERT INTO taikhoan(TenTK, MatKhau, Email,Quyen) VALUES ('$username', '$password', '$email',0) ";
 				$query = mysqli_query($conn, $sql);
-
+				$sql1 = "INSERT INTO khachhang (TenKH, Email, SoDT) VALUES ('$fullname', '$email', '$sdt') ";
+				$result = mysqli_query($conn, $sql1);
 				if($query) {
 					echo "<script>
 							alert('Đăng ký thành công!');

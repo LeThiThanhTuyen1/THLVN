@@ -1,127 +1,113 @@
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<title>Sân bóng TTVHO</title>
-<?php
-	include("config.php");
-	include("header.php");
-?>
-<header>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán đặt sân bóng</title>
     <style>
-        body {
-            background-color: #125c0b;
-            font-size: 18px;
+	body {
+		font-family: 'Poppins', sans-serif;
+		background: #125c0b;
+	}
+	.add {
+            	margin-top: 20px!important;
+		width: 500px;
+		background: #f1f1f1;
+		margin: 100px auto;
+		padding: 20px 30px;
+		border-radius: 5px;
+		box-shadow: 0px 0px 5px 0px hsl(128, 80%, 49%);
+	}
+	.add h1 {
+		text-align: center;
+		margin-bottom: 30px;
+		color: #1ae034;
+	}
+	.add form {
+		display: flex;
+		flex-direction: column;
+	}
+	.add form label {
+		font-size: 18px;
+		color: #555;
+		margin-bottom: 10px;
+		display: flex;
+		align-items: center;
+           	margin-top: 10px;
+	}
+    .add form input[type="text"], .add form input[type="file"] {
+		padding: 10px;
+		border-radius: 5px;
+		border: none;
+		background: #f9f9f9;
+		margin-bottom: 20px;
+	}
+        .add form input[type="text"] {
+            margin-bottom: -20px;
         }
-        .status-div {
-            text-align: center;
-            margin: 12.5%;
-            margin-top: 100px;
-            padding: 40px;
-            border: 5px inset coral;
-            width: 70%;
-            background-color: #ffffff;
-            box-shadow: 0 5px 15px #111111;
-            display: inline-block;
-            margin-bottom: 25px;
+        textarea {
+            height: 50px;
+            margin-bottom: -20px;
         }
-        .table-status {
-            text-align: center;
-            margin: auto;
-        }
-        th, td {
-            padding: 10px;
-        }
-        button {
-            padding: 5px;
-        }
-        a {
-            text-decoration: none;
-            color: red;
-        }
+	.add form input[type="submit"] {
+        margin-top: 30px;
+		background: #125c0b;
+		color: #fff;
+		border: none;
+		border-radius: 5px;
+		padding: 10px;
+		font-size: 18px;
+		cursor: pointer;
+	}
+	
     </style>
-    
-</header>
+</head>
 <body>
-
-<?php
-if(isset($_GET['id']))
-{
-        $timestamp = time();
-        $id1 = $_GET['id'];
-    
-        // Chuyển timestamp thành ngày/tháng
-        $date = date('Y-m-d', $timestamp);
-    
-        // Cộng thêm 1 ngày
-        $nextDay = date('Y-m-d', strtotime($date . ' +1 day'));
-        
-
-        $sql_tt = "SELECT * FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
-        $result_tt = mysqli_query($conn, $sql_tt);
-        if(mysqli_num_rows($result_tt) > 0)
-        {
-            $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat < '$nextDay'";
-            $result_tt1 = mysqli_query($conn, $sql_tt1);
-            echo  '<script>alert("Xóa thành công!");</script>';
-
-        }
-        else
-        {
-            echo  '<script>alert("Không thành công!");</script>';
-        }
+    <?php
+        include 'config.php';
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        } else {
+            echo "Lỗi: Không có ID sân được chỉ định.";
+            exit;
         }
 
+        if(isset($_POST['luu'])) {
+           
+                $sql = "UPDATE datsan SET DaThanhToan = 1 WHERE MaDat = '$id'";
 
- 
-?>
-    <div class="status-div">
-        <b>DANH SÁCH ĐẶT SÂN <span id='tieudetime'></span></b><br />
-        <br>
-        <table class="table-status" border="1">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên Sân</th>
-                    <th>Giờ đặt</th>
-                    <th>Giờ trả</th>
-                    <th colspan="2">Cập nhật </th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-               $id= $_SESSION['id'];
-               
-$i=0;
-
-                $sql_tt = "SELECT *
-                        FROM datsan where MaKhach= '$id'";
-                $result_tt = mysqli_query($conn, $sql_tt);
-
-                // Duyệt qua kết quả
-                while ($row = mysqli_fetch_assoc($result_tt)) {
-                    $i++;
-                    echo '<form action="edit_trangthai.php" method= "POST" id="add-form">';
-                    echo '<tr>';
-                    echo '<td>' . $i . '</td>';
-                    echo '<td>' . $row['TenSan'] . '</td>';
-                    echo '<td>' . $row['GioDat'] . '</td>';
-                    echo '<td>' . $row['GioTra'] . '</td>';
-                    echo '<td> <a href= "danhsachdat.php?id=' . $row['MaDat'] . '" > Hủy</a></td>';
-                    if($row['DaThanhToan'] == 1)
-                    {
-                        echo '<td>' . 'Đã thanh toán' . '</td>';
-                    }else
-                    {
-                    echo '<td> <a href= "thanhtoansan.php?id=' . $row['MaDat'] . '" > Thanh toán</a></td>';
+                if (mysqli_query($conn, $sql)) {
+                    echo "<script>
+                    alert('Bạn đã thanh toán thành công!');
+                    window.location = 'danhsachdat.php';
+                    </script>";
+                } else {
+                    echo "Lỗi: " . mysqli_error($conn);
                 }
-                    echo '</tr>';
-                    
-                }
+            }
 
-                // Đóng kết nối
-                mysqli_close($conn);
-                ?>
-            </tbody>
-        </table>
-        <br>
-        <button><a href="sanbong.php">Quay lại</a></button>
+        $sql = "SELECT ThanhTien FROM datsan WHERE MaDat = $id";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+        } else {
+            echo "Lỗi: Không tìm thấy thông tin đặt sân";
+            exit;
+        }
+    ?>
+   <div class="add">
+        <h1>Thanh toán tiền đặt sân</h1>
+        <form method="post" action="" enctype="multipart/form-data">
+            <label for="tenKhachHang">Tên chủ tài khoản:</label>
+            <input type="text" name="tenTK" id="tenKhachHang" value="" required><br>
+
+            <label for="email">Số tài khoản:</label>
+            <input type="text" name="number" id="email" value="" required><br>
+
+            <label for="soDT">Số tiền phải thanh toán:</label>
+            <input type="text" name="soDT" id="soDT" value="<?= $row['ThanhTien'] ?>" required><br>
+
+            <input type="submit" name="luu" value="Thanh toán">
+        </form>
     </div>
 </body>
+</html>

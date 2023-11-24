@@ -70,14 +70,18 @@
 	<div class="log">
 		<form action="register_submit.php" method="POST">
 			<h1 style="color: #003300;">Đăng ký</h1>
+			<label class="signup-label">Họ Tên:</label>
+			<input class="signup-input" type="text" name="fullname" required>
+
 			<label class="signup-label">Tên tài khoản:</label>
 			<input class="signup-input" type="text" name="username" required>
 			
-			
 			<label class="signup-label">Email:</label>
 			<input class="signup-input" type="email" name="email" required>
-			
 
+			<label class="signup-label">Số điện thoại:</label>
+			<input class="signup-input" type="sdt" name="sdt" required>
+			
 			<label class="signup-label">Mật khẩu:</label>
 			<input class="signup-input" type="password" name="password" required>
 			
