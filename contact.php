@@ -29,7 +29,7 @@
     <div class="contact-div">
         <div class="text">
             <h1>Liên hệ với chúng tôi</h1>
-            <br>Địa chỉ: Số nhà 541 An Dương Vương, Phường Nguyễn Văn Cừ, Thành phố Quy Nhơn, tinht Bình Địng, Việt Nam<br>
+            <br>Địa chỉ: Số nhà 541 An Dương Vương, Phường Nguyễn Văn Cừ, Thành phố Quy Nhơn, tỉnh Bình Định, Việt Nam<br>
             <br>Phone: 084 000 00 00<br>
             <br>Email: <a class="link" style="color: #F7941D;" href="mailto:tinhoctpt@gmail.com">ttvhoteam@gmail.com.vn</a>
         </div>  
