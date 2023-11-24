@@ -75,7 +75,6 @@
             margin-bottom: 25px;
             margin-top: 15px;
             padding: 10px 40px;
-            height: 70%;
         }
     </style>
 </head>
