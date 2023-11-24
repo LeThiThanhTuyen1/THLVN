@@ -21,12 +21,11 @@
         // Lấy sheet Excel đang hoạt động
         $sheet = $objPHPExcel->getActiveSheet();
 
-
         // Thiết lập tên các cột dữ liệu
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', "Mã đặt")
             ->setCellValue('B1', "Tên Sân")
-            ->setCellValue('C1', "Mã khách")
+            ->setCellValue('C1', "Tên khách hàng")
             ->setCellValue('D1', "Giờ đặt")
             ->setCellValue('E1', "Giờ trả")
             ->setCellValue('F1', "Đã thanh toán")
@@ -34,35 +33,38 @@
 
         // Lặp qua các kết quả truy vấn và ghi dữ liệu vào file excel
         $i = 2;
-        while ($row = $result->fetch_assoc()) {
+
+        $sql = "SELECT sanbong.TenSan,datsan.*
+                FROM datsan INNER JOIN sanbong
+                ON sanbong.ID = datsan.IDSan ";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_assoc($result)) {
             $ID = $row['MaDat'];
             $tenSan = $row['TenSan'];
-            $maKH = $row['MaKhach'];
             // Lấy tên khách hàng theo mã khách
-            $sql2 = "SELECT TenKH FROM khachhang WHERE MaKH = $maKH";
+            $tenkh = $row['TenTK'];
+            $sql2 = "SELECT khachhang.TenKH 
+                            FROM khachhang INNER JOIN taikhoan
+                            ON khachhang.Email = taikhoan.Email
+                            WHERE TenTK = '$tenkh'";
             $result2 = $conn->query($sql2);
             $row2 = $result2->fetch_assoc();
             $tenKH= $row2['TenKH'];
-            
             $gioDat = $row['GioDat'];
             $gioTra = $row['GioTra'];
             $daThanhToan = $row['DaThanhToan'];
             $tien = $row['ThanhTien'];
-
-            // $objPHPExcel->setActiveSheetIndex(0)
+            
             $sheet->setCellValue("A$i", $ID);
             $sheet->setCellValue("B$i", $tenSan);
             $sheet->setCellValue("C$i", $tenKH);
             $sheet->setCellValue("D$i", $gioDat);
             $sheet->setCellValue("E$i", $gioTra);
             if ($daThanhToan == 1) {
-                //$objPHPExcel->setActiveSheetIndex(0)
                 $sheet->setCellValue("F$i", "✓");
             } else {
-                //$objPHPExcel->setActiveSheetIndex(0)
                 $sheet->setCellValue("F$i", "✗");
             }
-            //$objPHPExcel->setActiveSheetIndex(0)
             $sheet->setCellValue("G$i", $tien);
 
             $i++;
