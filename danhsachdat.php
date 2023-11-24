@@ -56,12 +56,12 @@
             {
                 $sql_tt1 = "DELETE FROM datsan WHERE MaDat = '$id1' AND GioDat > '$nextDay'";
                 $result_tt1 = mysqli_query($conn, $sql_tt1);
-                echo  '<script>alert("Xóa thành công!");</script>';
+                echo  '<script>alert("Hủy đặt sân thành công!");</script>';
 
             }
             else
             {
-                echo  '<script>alert("Không thành công!");</script>';
+                echo  '<script>alert("Không đủ điều kiện để hủy!");</script>';
             }
         }
     ?>
