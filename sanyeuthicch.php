@@ -98,7 +98,7 @@ if(isset($_POST['huyyeuthich']))
 
     $id= $_SESSION['login_user'];;
     $sql = "SELECT *, sanyeuthich.ID as idyeu
-    FROM sanyeuthich,sanbong where sanyeuthich.TenTK= '$id' and sanbong.ID =sanyeuthich.IDSan";
+    FROM sanyeuthich,sanbong where sanyeuthich.TenTK= '$id' and sanbong.ID =sanyeuthich.IDSan GROUP BY sanbong.ID ASC";
 
 $products = mysqli_query($conn, $sql);
     if (mysqli_num_rows($products) == 0) {
@@ -107,9 +107,8 @@ $products = mysqli_query($conn, $sql);
         echo '<div class="sanbong-div">';
         while ($row = mysqli_fetch_assoc($products)) {
         echo '<div class="box">
-        <form method="POST" action="sanyeuthicch.php">
+            <form method="POST" action="sanyeuthicch.php">
                 <img width="100" height="50" src="data:image/jpeg;base64,'.base64_encode($row["AnhSan"]).'">
-                
                 <h2>' . $row['TenSan'] . '</h2>';
                 echo '<input type="hidden" name="huyyeuthich_id" value="' . $row['idyeu'] . '">';
                     echo '<button  type="submit" name="huyyeuthich" class="favorite-button"> Hủy ❤️</button>';
@@ -117,29 +116,15 @@ $products = mysqli_query($conn, $sql);
                 echo '<c>Giá: ' . $row['Gia'] . 'đ</c>
                 <c>Loại sân: ' . $row['LoaiSan'] . '</c>
             </form>
-            <form method="POST" action="datsan.php">
+            <form method="POST" action="action.php">
+                <input type="hidden" name="id" value=" '.$row['ID'].' ">
                 <br><input type="submit" name="datsan['.$row['ID'].']" class="btn" value="Đặt sân">
-                </form>
+            </form>
         </div>';     
         }
         echo '</div>';
     }
     ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $(".favorite-button").click(function() {
-                var sid = $(this).data("sid");
-                var icon = $(this);
-
-                $.post("add_yeuthich.php", { sid: sid }, function(data) {
-                    if (data === "success") {
-                        icon.addClass("favorite");
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
 
